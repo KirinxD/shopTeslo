@@ -1,27 +1,42 @@
-export const revalidate=60;
+export const revalidate = 604800; //7 dias
 
+import { getProductBySlug } from "@/actions";
 import {
   ProductMobileSlidesShow,
   ProductSlidesShow,
   QuantitySelector,
   SizeSelector,
+  StockLabel,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
+import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
-/*interface Props {
-  params: {
-    slug: string;
-  };
-}*/
-type Params = Promise<{ slug: string }>;
-export default async function ProductPage(props: {
-  params: Params;
-}) {
-  const { slug } = await props.params;
-  const product = initialData.products.find((product) => product.slug === slug);
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const product = await getProductBySlug(slug);
+  return {
+    title: product?.title ?? "Producto no encontrado",
+    description: product?.description ?? "",
+    openGraph: {
+      title: product?.title ?? "Producto no encontrado",
+      description: product?.description ?? "",
+      images: [`/products/${product?.images[1]}`],
+    },
+  };
+}
+
+export default async function ProductPage({ params}: Props ) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   if (!product) {
     notFound();
   }
@@ -30,13 +45,24 @@ export default async function ProductPage(props: {
     <div className="mt-5 mb-20 grid md:grid-cols-3 gap-3">
       <div className="col-span-1 md:col-span-2">
         {/*Desktop slideshow */}
-        <ProductSlidesShow className="hidden md:block" images={product.images} title={product.title} />
+        <ProductSlidesShow
+          className="hidden md:block"
+          images={product.images}
+          title={product.title}
+        />
         {/*Mobile slideshow */}
-        <ProductMobileSlidesShow className="block md:hidden" images={product.images} title={product.title} />
+        <ProductMobileSlidesShow
+          className="block md:hidden"
+          images={product.images}
+          title={product.title}
+        />
       </div>
       <div className="col-span1 px-5">
-        <h1 className={`${titleFont.className}`}>{product.title}</h1>
-        <p className="text-lg mb-5">$ {product.price}</p>
+        <StockLabel slug={product.slug} />
+        <h1 className={`${titleFont.className} text-2xl font-bold`}>
+          {product.title}
+        </h1>
+        <p className="text-lg mb-5">$ {product.price.toFixed(2)}</p>
         <SizeSelector
           selectedSize={product.sizes[0]}
           availableSizes={product.sizes}

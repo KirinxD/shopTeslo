@@ -3,7 +3,6 @@
 Shop de ropa tomando como referencia la pagina de tesla
 
 ## Instalación para dev
-```
 1. Clonar repositorio
 2. Crear una copia del ```.env.template``` y renombrarlo a ```.env```  
 3. Cambiar las variables del archivo ```.env``` 
@@ -12,9 +11,6 @@ Shop de ropa tomando como referencia la pagina de tesla
 6. Correr las migraciones de Prisma ```npx prisma migrate dev``` 
 7. Ejecutar seed ```npm run seed``` 
 8. Configurar .env ```npm run dev``` 
-```
+
 
 ## Instalación para prod
-```
-
-```

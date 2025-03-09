@@ -1,5 +1,5 @@
 export interface Product {
-    //id:string;
+    id:string;
     description: string;
     images: string[];
     inStock: number;
@@ -8,9 +8,9 @@ export interface Product {
     slug: string;
     tags: string[];
     title: string;
-    type: ValidTypes;
+    //todo: type: ValidTypes;
     gender: 'men'|'women'|'kid'|'unisex'
 }
 
-type ValidSizes = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
-type ValidTypes = 'shirts'|'pants'|'hoodies'|'hats';
+export type ValidSizes = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
+export type ValidTypes = 'shirts'|'pants'|'hoodies'|'hats';

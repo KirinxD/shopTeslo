@@ -1,14 +1,8 @@
 export const revalidate = 604800; //7 dias
 
 import { getProductBySlug } from "@/actions";
-import {
-  ProductMobileSlidesShow,
-  ProductSlidesShow,
-  QuantitySelector,
-  SizeSelector,
-  StockLabel,
-} from "@/components";
-import { titleFont } from "@/config/fonts";
+import { ProductMobileSlidesShow,ProductSlidesShow} from "@/components";
+import { AddToCart } from "@/components/product/addToCart/addToCart";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -34,9 +28,10 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProductPage({ params}: Props ) {
+export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
+  
   if (!product) {
     notFound();
   }
@@ -58,17 +53,7 @@ export default async function ProductPage({ params}: Props ) {
         />
       </div>
       <div className="col-span1 px-5">
-        <StockLabel slug={product.slug} />
-        <h1 className={`${titleFont.className} text-2xl font-bold`}>
-          {product.title}
-        </h1>
-        <p className="text-lg mb-5">$ {product.price.toFixed(2)}</p>
-        <SizeSelector
-          selectedSize={product.sizes[0]}
-          availableSizes={product.sizes}
-        />
-        <QuantitySelector quantity={1} />
-        <button className="btn-primary my-5">Agregar al carrito</button>
+        <AddToCart product={product}  />
         <h3 className="font-bold text-sm">Descripción</h3>
         <p className="font-light">{product.description}</p>
       </div>

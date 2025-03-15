@@ -1,21 +1,23 @@
 "use client";
+import { signOut, useSession } from "next-auth/react";
+
 import { useUIStore } from "@/store";
 import clsx from "clsx";
 import Link from "next/link";
 import {
   IoCloseOutline,
-  IoLogInOutline,
-  IoLogOutOutline,
-  IoPeopleOutline,
-  IoPersonOutline,
   IoSearchOutline,
-  IoShirtOutline,
-  IoTicketOutline,
 } from "react-icons/io5";
+import { ItemUser } from "./itemUser";
+import { ItemAdmin } from "./itemAdmin";
+import { ItemSiginOut } from "./itemSiginOut";
 
 export const SideBar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  const roleUser =session?.user.role;
 
   return (
     <div>
@@ -26,7 +28,10 @@ export const SideBar = () => {
 
       {isSideMenuOpen && (
         /*blur*/
-        <div onClick={closeMenu} className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm"></div>
+        <div
+          onClick={closeMenu}
+          className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm"
+        ></div>
       )}
 
       {/*sidebar*/}
@@ -40,10 +45,11 @@ export const SideBar = () => {
       >
         <IoCloseOutline
           size={35}
-          onClick={ closeMenu}
+          onClick={closeMenu}
           className=" absolute top-3 right-3 cursor-pointer"
         />
         <div className="relative mt-12">
+          {/*Barra de busqueda */}
           <IoSearchOutline size={20} className="absolute top-2 left-2" />
           <input
             type="text"
@@ -51,57 +57,24 @@ export const SideBar = () => {
             className="w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
           ></input>
         </div>
+        
+        {/*Item login/ logout*/}
+        {!isAuthenticated && (
+          <ItemSiginOut text={"Ingresar"} method={ closeMenu} url={"/auth/login"} login={false} />
+        )}
+        {isAuthenticated && (
+          <ItemSiginOut text={"Salir"} method={ () => signOut()} url={"/"} login={false} />
+        )}
 
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPersonOutline size={25} />
-          <span className="ml-3 text-xl"> Perfil</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={25} />
-          <span className="ml-3 text-xl"> Ordenes</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogInOutline size={25} />
-          <span className="ml-3 text-xl"> Ingresar</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogOutOutline size={25} />
-          <span className="ml-3 text-xl"> Salir</span>
-        </Link>
-        <div className="w-full h-px bg-gray-200 my-10" />
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoShirtOutline size={25} />
-          <span className="ml-3 text-xl">Productos</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoTicketOutline size={25} />
-          <span className="ml-3 text-xl">Ordenes</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPeopleOutline size={25} />
-          <span className="ml-3 text-xl">Usuarios</span>
-        </Link>
+        {/*Resto de items */}
+        {isAuthenticated && roleUser==="user" && (
+          <ItemUser/>
+        )}
+
+        {isAuthenticated && roleUser==="admin" && (
+          <ItemAdmin/>
+        )}
+        
       </nav>
     </div>
   );

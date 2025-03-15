@@ -1,7 +1,10 @@
+"use client"
 import {  Title } from "@/components";
 import { initialData } from "@/seed/seed";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const productsInCart = [
   initialData.products[0],
@@ -9,6 +12,11 @@ const productsInCart = [
   initialData.products[2],
 ];
 export default function CheckoutPage() {
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  if (!isAuthenticated) 
+    redirect("/")
+  
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
       <div className="flex flex-col w-[1000px]">

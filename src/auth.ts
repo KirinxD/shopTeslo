@@ -1,32 +1,85 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import bcryptjs from "bcryptjs";
 import { z } from "zod";
+import { prisma } from "./lib/prisma";
+
+export const authConfig: NextAuthConfig = {
+  pages: {
+    signIn: "/auth/login",
+    newUser: "/auth/new-account",
+  },
+
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+
+    session({ session, token, user }) {
+      session.user = token.data as any;
+      return session;
+    },
+  },
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials);
+
+        if (!parsedCredentials.success) return null;
+
+        const { email, password } = parsedCredentials.data;
+
+        // Buscar el correo
+        const user = await prisma.user.findUnique({
+          where: { email: email.toLowerCase() },
+        });
+        if (!user) return null;
+
+        // Comparar las contraseñas
+        if (!bcryptjs.compareSync(password, user.password)) return null;
+
+        // Regresar el usuario sin el password
+        const { password: _, ...rest } = user;
+
+        return rest;
+      },
+    }),
+  ],
+};
+
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
+
+/*import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { prisma } from "./lib/prisma";
+import bcryptjs from "bcryptjs";
 
 export const config = {
   providers: [
     Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
       authorize: async (credentials) => {
         try {
-          let user = {};
-          const { email, password } = credentials;
+          const { email, password } = credentials as {email:string,password:string}
+          console.log({ email, password })
+          const user = await prisma.user.findUnique({
+            where: { email: email.trim()  },
+          });
+          
+          if (!user) throw {msg:"Usuario inexistente."}
+          console.log(bcryptjs.compareSync(password, user.password))
+          if (!bcryptjs.compareSync(password, user.password)) throw {msg:"Password invalida."};
+          
+          const { password: _, ...rest } = user;
 
-          if (!email || !password) {
-            console.log("Error");
-          }
-          console.log({ email, password });
-
-          return user;
+          return rest;
         } catch (error) {
-          if (error instanceof z.ZodError) {
-            console.error("Validation failed: ", error.issues[0]);
-            return { error: "Credenciales inválidas o datos incorrectos." };
-          } else {
-            return { error: "Ocurrio un problema al intentar logearse." };
-          }
+          console.log("la pe que te pe")
+          return  null;
         }
       },
     }),
@@ -38,3 +91,4 @@ export const config = {
 };
 
 export const { signIn, signOut, auth } = NextAuth(config);
+*/

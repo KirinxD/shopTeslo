@@ -1,7 +1,15 @@
+"use client"
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 
 export default function EmptyPage() {
+    const { data: session } = useSession();
+    const isAuthenticated = !!session?.user;
+    if (!isAuthenticated) 
+      redirect("/")
+    
   return (
     <div className="flex justify-center items-center h-[800px]" >
       <IoCartOutline size={80}/>

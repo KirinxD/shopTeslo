@@ -1,47 +1,67 @@
 "use client";
-import type { Country } from "@/interfaces";
-import { useAddressStore } from "@/store";
+import { deleteUserAddress, setUserAddress } from "@/actions";
+import type { address, Country } from "@/interfaces";
+import { useAddresStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 type FormInputs = {
   firstName: string;
   lastName: string;
   address: string;
-  address2?: string;
+  address2?: string ;
   postalCode: string;
   city: string;
   country: string;
-  telephone: string;
+  phone: string;
   rememberAddress: boolean;
 };
 interface Props {
   country: Country[];
+  userStoredAddress?:Partial<address>;
 }
-export const AddressForm = ({ country }: Props) => {
+export const AddressForm = ({ country,userStoredAddress={} }: Props) => {
   const {
     handleSubmit,
     register,
     formState: { errors, isValid },
     reset,
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({defaultValues:{
+    ...(userStoredAddress as any),
+    rememberAddress:false
+  }});
 
-  const setAddress = useAddressStore((state) => state.setAddress);
-  const address = useAddressStore((state) => state.address);
+  const setAddress = useAddresStore((state) => state.setAddress);
+  const deleteAddress=useAddresStore((state)=>state.deleteAddress);
+  const address = useAddresStore((state) => state.address);
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const { data: session } = useSession({
+    required: true,
+  });
 
-    setAddress(data);
+  const router=useRouter();
+
+  const onSubmit = async(data: FormInputs) => {
+    const { rememberAddress: _, ...restAddress } = data;
+    if (data.rememberAddress) {
+      setAddress(restAddress);
+      await setUserAddress(restAddress, session?.user?.id ?? "");
+    } else {
+      await deleteUserAddress(session?.user?.id ?? "");
+      deleteAddress()
+    }
+    router.push("/checkout")
+
   };
 
   useEffect(() => {
-    
     if (address.firstName) {
-      console.log("entro")
       reset(address);
     }
-  },[address]);
+  }, [address]);
 
   return (
     <form
@@ -142,10 +162,10 @@ export const AddressForm = ({ country }: Props) => {
         <input
           type="text"
           className="p-2 border border-slate-300 rounded-md"
-          {...register("telephone", { required: "El teléfono es obligatorio" })}
+          {...register("phone", { required: "El teléfono es obligatorio" })}
         />
-        {errors.telephone && (
-          <p className="text-red-500 text-sm">{errors.telephone.message}</p>
+        {errors.phone && (
+          <p className="text-red-500 text-sm">{errors.phone.message}</p>
         )}
       </div>
 

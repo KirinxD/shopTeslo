@@ -6,16 +6,17 @@ interface State {
     firstName: string;
     lastName: string;
     address: string;
-    address2: string;
+    address2?: string;
     postalCode: string;
     city: string;
     country: string;
     phone: string;
   };
   setAddress: (address: State["address"]) => void;
+  deleteAddress: () => void;
 }
 
-export const useAddressStore = create<State>()(
+export const useAddresStore = create<State>()(
   persist(
     (set, get) => ({
       address: {
@@ -30,6 +31,20 @@ export const useAddressStore = create<State>()(
       },
       setAddress: (address) => {
         set({ address });
+      },
+      deleteAddress: () => {
+        set({
+          address: {
+            firstName: "",
+            lastName: "",
+            address: "",
+            address2: "",
+            postalCode: "",
+            city: "",
+            country: "",
+            phone: "",
+          },
+        });
       },
     }),
     {

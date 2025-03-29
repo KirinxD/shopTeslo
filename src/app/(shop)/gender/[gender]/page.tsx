@@ -31,12 +31,12 @@ export default async function GenderPage(props: {
   if (products.length === 0) {
     redirect(`/gender/${gender}`);
   }
-
+  const genderTitle= gender==="men"?"hombres":gender==="women"?"mujeres":"niños"
   /*if (id=="kids") return NotFound()*/
   return (
     <>
       <Title
-        title={`Articulo de ${gender}`}
+        title={`Articulos de ${genderTitle}`}
         subtitle="Articulos por categoria"
       />
       <ProductGrid products={products} />

@@ -15,7 +15,7 @@ export const ProductInCart = () => {
     setLoaded(true);
   });*/
   
-  if (productInCart.length<1) {
+  if (!productInCart) {
     return <p>Loading ... </p>;
   }
   

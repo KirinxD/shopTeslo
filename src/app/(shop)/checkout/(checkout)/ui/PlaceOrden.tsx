@@ -17,7 +17,7 @@ export const PlaceOrden = () => {
   const address = useAddresStore((state) => state.address);
   const clearCart=useCartStore((state)=>state.clearCart)
 
-
+//TODO cuando le das click hay un bug - Application error: a client-side exception has occurred while loading localhost (see the browser console for more information).
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
     const productsToOrder = cart.map((product) => ({

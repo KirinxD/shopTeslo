@@ -9,6 +9,7 @@ import "swiper/css/thumbs";
 import "./slideShow.css";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import Image from "next/image";
+import { ProductImage } from "@/components";
 
 interface Props {
   images: string[];
@@ -36,12 +37,12 @@ export const ProductSlidesShow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               className="rounded-lg object-fill"
-              src={`/products/${image}`}
+              url={image}
               width={1024}
               height={800}
-              alt={title}
+              title={title}
             />
           </SwiperSlide>
         ))}
@@ -57,12 +58,12 @@ export const ProductSlidesShow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               className="rounded-lg object-fill"
-              src={`/products/${image}`}
+              url={image}
               width={1024}
               height={800}
-              alt={title}
+              title={title}
             />
           </SwiperSlide>
         ))}

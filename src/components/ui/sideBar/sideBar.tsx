@@ -4,10 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useUIStore } from "@/store";
 import clsx from "clsx";
 import Link from "next/link";
-import {
-  IoCloseOutline,
-  IoSearchOutline,
-} from "react-icons/io5";
+import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { ItemUser } from "./itemUser";
 import { ItemAdmin } from "./itemAdmin";
 import { ItemSiginOut } from "./itemSiginOut";
@@ -17,7 +14,7 @@ export const SideBar = () => {
   const closeMenu = useUIStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
-  const roleUser =session?.user.role;
+  const roleUser = session?.user.role;
 
   return (
     <div>
@@ -57,24 +54,29 @@ export const SideBar = () => {
             className="w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
           ></input>
         </div>
-        
-        {/*Item login/ logout*/}
-        {!isAuthenticated && (
-          <ItemSiginOut text={"Ingresar"} method={ closeMenu} url={"/auth/login"} login={false} />
-        )}
-        {isAuthenticated && (
-          <ItemSiginOut text={"Salir"} method={ () => signOut()} url={"/"} login={false} />
-        )}
 
         {/*Resto de items */}
-        {isAuthenticated && roleUser==="user" && (
-          <ItemUser/>
-        )}
+        {isAuthenticated && roleUser === "user" && <ItemUser />}
 
-        {isAuthenticated && roleUser==="admin" && (
-          <ItemAdmin/>
+        {isAuthenticated && roleUser === "admin" && <ItemAdmin />}
+
+        {/*Item login/ logout*/}
+        {!isAuthenticated && (
+          <ItemSiginOut
+            text={"Ingresar"}
+            method={closeMenu}
+            url={"/auth/login"}
+            login={false}
+          />
         )}
-        
+        {isAuthenticated && (
+          <ItemSiginOut
+            text={"Salir"}
+            method={() => signOut()}
+            url={"/"}
+            login={false}
+          />
+        )}
       </nav>
     </div>
   );

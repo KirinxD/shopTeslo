@@ -4,16 +4,15 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 //const session =await auth();
-export const getOrderByID = async (productId: string) => {
+export const getOrderByID = async (orderId: string) => {
   const session = await auth();
-
   if (!session?.user) {
     return { ok: false, message: "Debe estar autenticado" };
   }
 
   const { id, role } = session.user;
 
-  if (!productId) return { ok: false, message: "No hay productID" };;
+  if (!orderId) return { ok: false, message: "No hay productID" };;
 
   const order = await prisma.order.findFirst({
     include: {
@@ -34,10 +33,10 @@ export const getOrderByID = async (productId: string) => {
       },
     },
     where: {
-      id: productId,
-      ...(role !== "admin" && { id }),
+      id: orderId,
+      userId:id
     }
   });
-  //console.log(JSON.stringify(order));
+
   return !order ? { ok: false, order: null } : { ok: true, order: order };
 };

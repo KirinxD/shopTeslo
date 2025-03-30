@@ -8,7 +8,7 @@ export interface Product {
   slug: string;
   tags: string[];
   title: string;
-  gender: Sizes;
+  gender: Category;
 }
 
 export interface CartProduct{
@@ -21,6 +21,11 @@ export interface CartProduct{
   images: string;
 }
 
-export type Categoty = "men" | "women" | "kid" | "unisex";
+export interface ProductImage{
+  id:number,
+  url:string
+}
+
+type Category="men"|"women"|"kid"|"unisex"
 export type Sizes = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 export type ypes = "shirts" | "pants" | "hoodies" | "hats";

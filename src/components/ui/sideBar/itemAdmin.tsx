@@ -10,7 +10,7 @@ import {
 export const ItemAdmin = () => {
   return (
     <div>
-       <Link
+      <Link
         href="/profile"
         className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
       >
@@ -27,25 +27,25 @@ export const ItemAdmin = () => {
 
       <div className="w-full h-px bg-gray-200 my-10" />
       <Link
-        href="/"
+        href="/admin/products"
         className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
       >
         <IoShirtOutline size={25} />
-        <span className="ml-3 text-xl">Productos</span>
+        <span className="ml-3 text-xl">Administración de productos</span>
       </Link>
       <Link
-        href="/"
-        className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
-      >
-        <IoTicketOutline size={25} />
-        <span className="ml-3 text-xl">Ordenes</span>
-      </Link>
-      <Link
-        href="/"
+        href="/admin/users"
         className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
       >
         <IoPeopleOutline size={25} />
-        <span className="ml-3 text-xl">Usuarios</span>
+        <span className="ml-3 text-xl">Administración de usuarios</span>
+      </Link>
+      <Link
+        href="/admin/orders"
+        className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
+      >
+        <IoTicketOutline size={25} />
+        <span className="ml-3 text-xl">Ordenes de clientes</span>
       </Link>
     </div>
   );

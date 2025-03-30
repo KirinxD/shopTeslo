@@ -8,7 +8,7 @@ interface Props {
   url: string;
   login: boolean;
 }
-
+//TODO borrar local storage, si cambias de usuario te va a poner los datos del anterior logeado
 export const ItemSiginOut = ({ method, text, url, login }: Props) => {
   return (
     <Link

@@ -11,9 +11,11 @@ type Props = {
 
 export default async function OrderPerIdPage({ params }: Props) {
   const { id } = await params;
-  const { ok, order } = await getOrderByID(id);
-
+  console.log(id)
+  const { ok, order,message} = await getOrderByID(id);
+  console.log({order, ok,message})
   if (!ok || !order) {
+    console.log(message)
     redirect("/");
   }
 

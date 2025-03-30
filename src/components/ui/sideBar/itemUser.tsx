@@ -14,7 +14,7 @@ export const ItemUser = () => {
       </Link>
 
       <Link
-        href="/"
+        href="/orders"
         className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
       >
         <IoTicketOutline size={25} />

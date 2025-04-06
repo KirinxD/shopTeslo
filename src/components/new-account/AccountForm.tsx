@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
 import { z } from "zod";
+import { LoadingButton } from "..";
 
 const formSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
@@ -18,7 +19,7 @@ const formSchema = z.object({
 });
 
 export const AccountForm = () => {
-   
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,6 +34,7 @@ export const AccountForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setErrorDb("");
     const validationResult = formSchema.safeParse(formData);
 
@@ -42,6 +44,7 @@ export const AccountForm = () => {
       validationResult.error.errors.forEach((error) => {
         newErrors[error.path[0]] = error.message;
       });
+      setLoading(false);
       setErrors(newErrors);
       return;
     }
@@ -52,15 +55,15 @@ export const AccountForm = () => {
       formData.password
     );
     if (!resp.ok) {
-        setErrorDb(resp.message ?? "") 
-        return; 
-    };
-    const resp2=await login(formData.email,formData.password);
-    if (resp2){
-        window.location.replace("/")
+      setLoading(false);
+      setErrorDb(resp.message ?? "");
+      return;
+    }
+    const resp2 = await login(formData.email, formData.password);
+    if (resp2) {
+      window.location.replace("/");
     }
     // Si no hay errores, enviar datos
-    console.log("Datos enviados:", formData);
     setErrors({});
   };
 
@@ -71,10 +74,9 @@ export const AccountForm = () => {
       <input
         id="name"
         name="name"
-        className={clsx(
-          "px-5 py-2 border border-slate-400 bg-gray-200 rounded mb-2",
-          { "border-red-500": !!errors.name }
-        )}
+        className={clsx("px-5 py-2 border border-slate-300 rounded-md mb-2", {
+          "border-red-500": !!errors.name,
+        })}
         type="text"
         value={formData.name}
         onChange={handleChange}
@@ -88,10 +90,9 @@ export const AccountForm = () => {
       <input
         id="email"
         name="email"
-        className={clsx(
-          "px-5 py-2 border border-slate-400 bg-gray-200 rounded mb-2",
-          { "border-red-500": !!errors.email }
-        )}
+        className={clsx("px-5 py-2 border border-slate-300 rounded-md mb-2", {
+          "border-red-500": !!errors.email,
+        })}
         type="email"
         value={formData.email}
         onChange={handleChange}
@@ -105,10 +106,9 @@ export const AccountForm = () => {
       <input
         id="password"
         name="password"
-        className={clsx(
-          "px-5 py-2 border border-slate-400 bg-gray-200 rounded mb-2",
-          { "border-red-500": !!errors.password }
-        )}
+        className={clsx("px-5 py-2 border border-slate-300 rounded-md mb-2", {
+          "border-red-500": !!errors.password,
+        })}
         type="password"
         value={formData.password}
         onChange={handleChange}
@@ -119,9 +119,14 @@ export const AccountForm = () => {
       )}
       {errorDb}
       {/* Botón de envío */}
-      <button type="submit" className="btn-primary">
-        Crear cuenta
-      </button>
+
+      {!loading ? (
+        <button type="submit" className="btn-primary">
+          Crear cuenta
+        </button>
+      ) : (
+        <LoadingButton />
+      )}
 
       {/* Divisor */}
       <div className="flex items-center my-5">

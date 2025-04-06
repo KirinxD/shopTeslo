@@ -5,7 +5,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
-export const TopMenu = () => {
+interface Props {
+  section:boolean ;
+}
+export const TopMenu = ({section}:Props) => {
   const totalITems = useCartStore((state) => state.getTotalItems());
   const openMenu = useUIStore((state) => state.openSideMenu);
   const [loaded, setLoaded] = useState(false);
@@ -25,10 +28,11 @@ export const TopMenu = () => {
             Teslo
           </span>
         </Link>
-        <span className="m-2 p-2"> | Shop</span>
+        <span > | Shop</span>
       </div>
       {/* Center Menu */}
-      <div className=" hidden sm:block">
+
+      {section && <div className=" hidden sm:block">
         <Link
           className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
           href="/gender/men"
@@ -47,7 +51,7 @@ export const TopMenu = () => {
         >
           Niños
         </Link>
-      </div>
+      </div>}
       {/*search, cart,menu */}
       <div className=" flex items-center">
         <Link href={"/search"} className="mx-2">
@@ -63,12 +67,12 @@ export const TopMenu = () => {
             <IoCartOutline className="w-6 h-6" />
           </div>
         </Link>
-        <button
+        {section && <button
           onClick={openMenu}
           className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
         >
           Menú
-        </button>
+        </button>}
       </div>
     </nav>
   );

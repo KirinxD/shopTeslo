@@ -12,7 +12,7 @@ export const OrderSummary = () => {
 
   useEffect(() => {
     setLoaded(true);
-  });
+  },[]);
   
   if (!loading) {
     return <p>Loading ... </p>;

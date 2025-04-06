@@ -31,6 +31,7 @@ async function main() {
   const countryDb=await prisma.country.createMany({
     data:countries
   })
+  console.log(countryDb)
 
   //Productos
   products.forEach(async (product) => {

@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./slideShow.css";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
-import Image from "next/image";
 import { ProductImage } from "@/components";
 
 interface Props {

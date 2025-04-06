@@ -10,7 +10,7 @@ export const getOrderByID = async (orderId: string) => {
     return { ok: false, message: "Debe estar autenticado" };
   }
 
-  const { id, role } = session.user;
+  const { id } = session.user;
 
   if (!orderId) return { ok: false, message: "No hay productID" };;
 

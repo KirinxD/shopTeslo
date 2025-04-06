@@ -14,6 +14,7 @@ export const getCategories = async () => {
       categories,
     };
   } catch (error) {
+    console.log(error)
     return {
       ok: false,
       categories:[],

@@ -7,7 +7,7 @@ import { ReactNode, useEffect } from "react";
 interface ProtectedLayoutProps {
   children: ReactNode;
 }
-
+//TODO problema en checkout
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const { data: session, status } = useSession();
   const router = useRouter();

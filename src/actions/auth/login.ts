@@ -1,7 +1,9 @@
 "use server";
 
 import { signIn } from "@/auth";
-
+interface SignInError {
+  type?: string;
+}
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
@@ -14,7 +16,9 @@ export async function authenticate(
 
     return "Success";
   } catch (error) {
-    if ((error as any).type === "CredentialsSignin") {
+    const signInError = error as SignInError;
+
+    if (signInError.type === "CredentialsSignin") {
       return "CredentialsSignin";
     }
     return "Error desconocido";
@@ -24,8 +28,10 @@ export async function authenticate(
 export const login = async (email: string, password: string) => {
   try {
     await signIn("credentials", {
-      
-      redirect:false, email, password });
+      redirect: false,
+      email,
+      password,
+    });
 
     return "Success";
   } catch (error) {
@@ -36,8 +42,6 @@ export const login = async (email: string, password: string) => {
     };
   }
 };
-
-
 
 /*"use server";
 

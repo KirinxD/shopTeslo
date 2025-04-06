@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { IoCartOutline } from "react-icons/io5";
 
 export default function EmptyPage() {
-  const { data: session, status } = useSession();
+  const {  status } = useSession();
   console.log(status)
   
   if (status === "loading") {

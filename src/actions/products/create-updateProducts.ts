@@ -38,7 +38,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   productP.slug = productP.slug.toLowerCase().replace(/ /g, "-").trim();
   const { id, ...rest } = productP;
   try {
-    const prismaTx = await prisma.$transaction(async (tx) => {
+    const prismaTx = await prisma.$transaction(async () => {
       let product: Product;
       const tagsArray = rest.tags
         .split(",")
@@ -100,7 +100,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   } catch (error) {
     return {
       ok: false,
-      message: "Revisar los logs, no se puedo actualizar/crear",
+      message: `Revisar los logs, no se puedo actualizar/crear ${error}`,
     };
   }
 };
@@ -115,12 +115,14 @@ const uploadImages = async (images: File[]) => {
           .upload(`data:image/png;base64,${base64Image}`)
           .then((r) => r.secure_url);
       } catch (error) {
+        console.log(error)
         return null;
       }
     });
     const uploadedImages = await Promise.all(uploadPromises);
     return uploadedImages;
   } catch (error) {
+    console.log(error)
     return null;
   }
 };

@@ -1,7 +1,6 @@
 "use client";
 import { ProductImage } from "@/components";
 import { Product } from "@/interfaces";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 

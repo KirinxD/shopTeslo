@@ -3,7 +3,7 @@ export const revalidate = 604800; //7 dias
 import { getProductBySlug } from "@/actions";
 import { ProductMobileSlidesShow,ProductSlidesShow} from "@/components";
 import { AddToCart } from "@/components/product/addToCart/addToCart";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -11,8 +11,7 @@ type Props = {
 };
 
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
+  { params }: Props
 ): Promise<Metadata> {
   const { slug } = await params;
 

@@ -36,7 +36,6 @@ export const ProductForm = ({ product, categories }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { isValid },
     getValues,
     setValue,
     watch,
@@ -88,9 +87,11 @@ export const ProductForm = ({ product, categories }: Props) => {
   };
 
   watch("sizes");
+
   const onSizeChange = (size: string) => {
     const sizes = new Set(getValues("sizes"));
-    sizes.has(size) ? sizes.delete(size) : sizes.add(size);
+    const validationSizes=sizes.has(size) ? sizes.delete(size) : sizes.add(size);
+    console.log(validationSizes);
     setValue("sizes", Array.from(sizes));
   };
 

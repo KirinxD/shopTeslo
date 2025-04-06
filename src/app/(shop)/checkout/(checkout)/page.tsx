@@ -1,8 +1,6 @@
 "use client";
 import { Title } from "@/components";
-import { initialData } from "@/seed/seed";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ProductsConfirm } from "./ui/ProductsConfirm";

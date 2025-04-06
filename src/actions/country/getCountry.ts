@@ -11,6 +11,7 @@ export const getCountries = async () => {
 
     return country;
   } catch (error) {
+    console.log(error) //Todo cambiar response ok: data:
     return [];
   }
 };

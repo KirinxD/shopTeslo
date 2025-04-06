@@ -140,10 +140,10 @@ export const placeOrder = async (
       order: prismaTx.order,
       prismaTx: prismaTx,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       ok: false,
-      message: error?.message,
+      message: error instanceof Error ? error.message : "Ocurrió un error desconocido",
     };
   }
 };

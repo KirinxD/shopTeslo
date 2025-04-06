@@ -5,15 +5,12 @@ import { currencyFormat } from "@/util";
 import { redirect } from "next/navigation";
 import { EstadoOrden } from "../ui/EstadoOrden";
 
-type Props = {
-  params: { id: string };
-};
-
-export default async function OrderPerIdPage({ params }: Props) {
+type Params = Promise<{ id: string }>
+export default async function OrderPerIdPage(props: {params: Params}) {
+  const params = await props.params
   const { id } = await params;
-  console.log(id)
   const { ok, order,message} = await getOrderByID(id);
-  console.log({order, ok,message})
+
   if (!ok || !order) {
     console.log(message)
     redirect("/");

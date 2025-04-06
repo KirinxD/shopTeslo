@@ -59,7 +59,7 @@ export const useCartStore = create<State>()(
             }
             return item;
           })
-          .filter((item) => item.quantity > 1);
+          .filter((item) => item.quantity > 0);
         set({ cart: updatedCartProducts });
       },
       getTotalItems: () => {

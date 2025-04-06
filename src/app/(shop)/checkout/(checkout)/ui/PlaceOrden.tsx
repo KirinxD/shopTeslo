@@ -29,7 +29,7 @@ export const PlaceOrden = () => {
     const resp=await placeOrder(productsToOrder,address);
     if(!resp.ok){
       setIsPlacingOrder(false);
-      setErrorMessage(resp.message);
+      setErrorMessage(resp.message??"");
     }
     clearCart();
     router.replace("/orders/"+resp.order?.id)

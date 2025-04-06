@@ -1,6 +1,5 @@
 import { AccountForm } from "@/components";
 import { titleFont } from "@/config/fonts";
-import Link from "next/link";
 
 export default function NewAccountPage() {
   return (

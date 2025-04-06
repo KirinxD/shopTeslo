@@ -30,7 +30,7 @@ export const AddressForm = ({ country,userStoredAddress={} }: Props) => {
     formState: { errors, isValid },
     reset,
   } = useForm<FormInputs>({defaultValues:{
-    ...(userStoredAddress as any),
+    ...(userStoredAddress),
     rememberAddress:false
   }});
 
@@ -61,7 +61,7 @@ export const AddressForm = ({ country,userStoredAddress={} }: Props) => {
     if (address.firstName) {
       reset(address);
     }
-  }, [address]);
+  }, [address,reset]);
 
   return (
     <form

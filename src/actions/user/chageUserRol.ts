@@ -15,7 +15,7 @@ export const changeUserRole = async (userId: string, role: string) => {
   }
   try {
     const newRole = role === "admin" ? "admin" : "user";
-    const updateUser = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
         id: userId,
       },
@@ -25,6 +25,7 @@ export const changeUserRole = async (userId: string, role: string) => {
 
     return {
       ok: true,
+      data:updatedUser
     };
   } catch (error) {
     console.log(error);

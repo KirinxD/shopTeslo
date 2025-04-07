@@ -1,4 +1,4 @@
-import { Footer, SideBar, TopMenu } from "@/components";
+import { Footer, Section, SideBar, TopMenu } from "@/components";
 
 export default function ShopLayout({
   children,
@@ -8,9 +8,10 @@ export default function ShopLayout({
   return (
     <main className="min-h-screen">
       <TopMenu section={true} />
-      <SideBar/>
+      <div className="flex mt-2  justify-center sm:hidden"><Section /></div>
+      <SideBar />
       <div className="px-1 sm:px-10">{children}</div>
-      <Footer/>
+      <Footer />
     </main>
   );
 }

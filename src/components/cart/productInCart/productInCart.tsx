@@ -6,15 +6,10 @@ import Link from "next/link";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 export const ProductInCart = () => {
-  //const [loading, setLoaded] = useState(false);
   const updateProductInCart=useCartStore((state)=>state.updateProductQuantity);
   const productInCart = useCartStore((state) => state.cart)|| [];
   const deleteProduct=useCartStore((state)=>state.deleteProduct);
 
-  /*useEffect(() => {
-    setLoaded(true);
-  });*/
-  
   if (!productInCart) {
     return <p>Loading ... </p>;
   }

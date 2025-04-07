@@ -4,6 +4,7 @@ import { useCartStore, useUIStore } from "@/store";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
+import { Section } from "./section";
 
 interface Props {
   section:boolean ;
@@ -31,26 +32,8 @@ export const TopMenu = ({section}:Props) => {
         <span > | Shop</span>
       </div>
       {/* Center Menu */}
-
       {section && <div className=" hidden sm:block">
-        <Link
-          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
-          href="/gender/men"
-        >
-          Hombres
-        </Link>
-        <Link
-          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
-          href="/gender/women"
-        >
-          Mujeres
-        </Link>
-        <Link
-          className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
-          href="/gender/kid"
-        >
-          Niños
-        </Link>
+        <Section/>
       </div>}
       {/*search, cart,menu */}
       <div className=" flex items-center">

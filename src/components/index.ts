@@ -1,4 +1,5 @@
 export * from "./ui/topMenu/topMenu";
+export * from "./ui/topMenu/section";
 export * from "./ui/title/title";
 export * from "./ui/notfound/PageNotFound404";
 

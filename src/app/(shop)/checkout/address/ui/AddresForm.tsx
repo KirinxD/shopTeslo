@@ -31,7 +31,7 @@ export const AddressForm = ({ country,userStoredAddress={} }: Props) => {
     reset,
   } = useForm<FormInputs>({defaultValues:{
     ...(userStoredAddress),
-    rememberAddress:false
+    rememberAddress:true
   }});
 
   const setAddress = useAddresStore((state) => state.setAddress);

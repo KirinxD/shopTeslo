@@ -4,25 +4,23 @@ import { getOrderByID } from "@/actions";
 import { currencyFormat } from "@/util";
 import { redirect } from "next/navigation";
 import { EstadoOrden } from "../ui/EstadoOrden";
+import { ClearCartClient } from "@/components/clearCart/clearCart";
 
-type Params = Promise<{ id: string }>
-export default async function OrderPerIdPage(props: {params: Params}) {
-  const params = await props.params
+export default async function OrderPerIdPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await params;
-  const { ok, order,message} = await getOrderByID(id);
+  const { ok, order } = await getOrderByID(id);
 
   if (!ok || !order) {
-    console.log(message)
     redirect("/");
   }
 
-  const productQuantity = order?.OrderItem.reduce(
-    (count: number, product: { quantity: number }) => count + product.quantity,
-    0
-  );
-
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
+      <ClearCartClient/>
       <div className="flex flex-col w-[1000px]">
         <Title title={`Orden #${id.split("-").at(-1)}`} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
@@ -84,9 +82,9 @@ export default async function OrderPerIdPage(props: {params: Params}) {
               <span>No. Productos</span>
               <span className=" text-right">
                 {" "}
-                {productQuantity == 1
+                {order?.itemsInOrder == 1
                   ? "1 Artículo"
-                  : `${productQuantity} Artículos`}
+                  : `${order?.itemsInOrder} Artículos`}
               </span>
               <span>Sub total</span>
               <span className=" text-right">

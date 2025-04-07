@@ -15,9 +15,8 @@ export const PlaceOrden = () => {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const cart = useCartStore((state) => state.cart);
   const address = useAddresStore((state) => state.address);
-  const clearCart=useCartStore((state)=>state.clearCart)
+  //const clearCart=useCartStore((state)=>state.clearCart)
 
-//TODO cuando le das click hay un bug - Application error: a client-side exception has occurred while loading localhost (see the browser console for more information).
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
     const productsToOrder = cart.map((product) => ({
@@ -27,12 +26,14 @@ export const PlaceOrden = () => {
     }));
 
     const resp=await placeOrder(productsToOrder,address);
-    if(!resp.ok){
+    if (!resp.ok || !resp.order?.id) {
       setIsPlacingOrder(false);
-      setErrorMessage(resp.message??"");
+      setErrorMessage(resp.message ?? "Ocurrió un error al colocar la orden");
+      return;
     }
-    clearCart();
-    router.replace("/orders/"+resp.order?.id)
+    
+    router.push("/orders/"+resp.order?.id);
+    //clearCart();
   };
 
   useEffect(() => {
@@ -43,8 +44,7 @@ export const PlaceOrden = () => {
     useShallow((state) => state.getSummaryInformation())
   );
   
-
-  if (!loaded) {
+  if (!loaded || !address) {
     return <p>Cargando...</p>;
   }
   return (
@@ -99,9 +99,9 @@ export const PlaceOrden = () => {
           className={clsx({
             "flex btn-primary justify-center cursor-pointer": !isPlacingOrder,
             "flex btn-disabled justify-center cursor-pointer": isPlacingOrder,
-          })} //href={"/orders/123"}
+          })}
         >
-          Colocar orden
+          Confirmar
         </button>
       </div>
     </div>

@@ -38,7 +38,7 @@ export const OrderSummary = () => {
           className="flex btn-primary justify-center"
           href={"/checkout/address"}
         >
-          Checkout
+          Confirmar
         </Link>
       </div>
     </div>

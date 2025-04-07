@@ -6,11 +6,10 @@ import { redirect } from "next/navigation";
 import { EstadoOrden } from "../ui/EstadoOrden";
 import { ClearCartClient } from "@/components/clearCart/clearCart";
 
-export default async function OrderPerIdPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+export default async function OrderPerIdPage({ params }: Props) {
   const { id } = await params;
   const { ok, order } = await getOrderByID(id);
 
@@ -20,7 +19,7 @@ export default async function OrderPerIdPage({
 
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
-      <ClearCartClient/>
+      <ClearCartClient />
       <div className="flex flex-col w-[1000px]">
         <Title title={`Orden #${id.split("-").at(-1)}`} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">

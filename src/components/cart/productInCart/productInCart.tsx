@@ -40,6 +40,8 @@ export const ProductInCart = () => {
               <QuantitySelector
                 quantity={product.quantity}
                 onQuantityUpdated={(quantity) => updateProductInCart(product,quantity)}
+                stock={0}
+                //TODO VER ACA
               />
               <FaRegTrashCan onClick={()=>deleteProduct(product)}
                 className=" text-red-500 hover:text-red-600 cursor-pointer"

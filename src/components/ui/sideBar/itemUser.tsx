@@ -4,7 +4,7 @@ import { IoPersonOutline, IoTicketOutline } from "react-icons/io5";
 
 export const ItemUser = () => {
   return (
-    <div>
+    <>
       <Link
         href="/profile"
         className="flex p-2 items-center mt-8 hover:bg-gray-100 rounded transition-all"
@@ -20,6 +20,6 @@ export const ItemUser = () => {
         <IoTicketOutline size={25} />
         <span className="ml-3 text-xl"> Ordenes</span>
       </Link>
-    </div>
+    </>
   );
 };

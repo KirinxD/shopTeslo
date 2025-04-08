@@ -21,7 +21,7 @@ export const TopMenu = ({section}:Props) => {
   return (
     <nav className="flex px-5 justify-between items-center w-full">
       <div className=" ">
-        <Link className="m-2 p-2 " href={"/"}>
+        <Link className="m-2 p-2" href={"/"}>
           <span
             className={`${titleFont.className} antialiased font-bold
           text-black transition-colors duration-200 hover:text-red-200`}
@@ -37,9 +37,9 @@ export const TopMenu = ({section}:Props) => {
       </div>}
       {/*search, cart,menu */}
       <div className=" flex items-center">
-        <Link href={"/search"} className="mx-2">
+        {/*<Link href={"/search"} className="mx-2">
           <IoSearchOutline className="w-6 h-6" />
-        </Link>
+        </Link>*/}
         <Link href={totalITems===0 && loaded?"/empty":"/cart"} className="mx-2">
           <div className="relative">
             {loaded && totalITems > 0 && (

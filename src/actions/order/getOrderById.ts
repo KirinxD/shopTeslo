@@ -10,8 +10,9 @@ export const getOrderByID = async (orderId: string) => {
     return { ok: false, message: "Debe estar autenticado" };
   }
 
-  const { id } = session.user;
+  const { id,role } = session.user;
 
+  const isAdmin = role=== "admin";
   if (!orderId) return { ok: false, message: "No hay productID" };;
 
   const order = await prisma.order.findFirst({
@@ -34,9 +35,9 @@ export const getOrderByID = async (orderId: string) => {
     },
     where: {
       id: orderId,
-      userId:id
+      ...(role !== "admin" && { userId: id })
     }
   });
-
-  return !order ? { ok: false, order: null } : { ok: true, order: order };
+const comprador=order?.userId===id;
+  return !order ? { ok: false, order: null,isAdmin,comprador } : { ok: true, order: order,isAdmin,comprador };
 };

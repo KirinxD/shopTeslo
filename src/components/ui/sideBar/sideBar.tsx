@@ -3,7 +3,7 @@ import { signOut, useSession } from "next-auth/react";
 
 import { useUIStore } from "@/store";
 import clsx from "clsx";
-import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 import { ItemUser } from "./itemUser";
 import { ItemAdmin } from "./itemAdmin";
 import { ItemSiginOut } from "./itemSiginOut";

@@ -36,8 +36,8 @@ export default async function GenderPage(props: {
   return (
     <>
       <Title
-        title={`Articulos de ${genderTitle}`}
-        subtitle="Articulos por categoria"
+        title={`Artículos de ${genderTitle}`}
+        subtitle="Artículos por categoria"
       />
       <ProductGrid products={products} />
       <Pagination totalPages={totalPages} />

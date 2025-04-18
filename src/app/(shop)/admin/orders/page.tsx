@@ -31,6 +31,12 @@ export default async function pageOrder() {
                 scope="col"
                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
               >
+                Fecha compra
+              </th>
+              <th
+                scope="col"
+                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
                 Nombre completo
               </th>
               <th
@@ -39,6 +45,7 @@ export default async function pageOrder() {
               >
                 Estado
               </th>
+             
               <th
                 scope="col"
                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
@@ -56,7 +63,14 @@ export default async function pageOrder() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   #{order.id.split("-").at(-1)}
                 </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {order.createdAt
+                    .toISOString()
+                    .replace("T", " ")
+                    .split(".")[0]
+                    .trim()}
+                </td>
+                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
                   {order?.OrderAddress?.firstName}{" "}
                   {order?.OrderAddress?.lastName}
                 </td>
@@ -64,7 +78,11 @@ export default async function pageOrder() {
                   {order.isPaid ? (
                     <>
                       <IoCardOutline className="text-green-800" />
-                      <span className="mx-2 text-green-800">Pagada</span>
+                      <span className="mx-2 text-green-800">Pagada - {order.paidAt
+                    ?.toISOString()
+                    .replace("T", " ")
+                    .split(".")[0]
+                    .trim() || ""} </span>
                     </>
                   ) : (
                     <>
@@ -73,9 +91,10 @@ export default async function pageOrder() {
                     </>
                   )}
                 </td>
+                
                 <td className="text-sm text-gray-900 font-light px-6 ">
                   <Link
-                    href={`/orders/${order.id}`}
+                    href={`/admin/orders/${order.id}`}
                     className="hover:underline"
                   >
                     Ver orden

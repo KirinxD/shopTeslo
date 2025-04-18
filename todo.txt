@@ -1,0 +1,5 @@
+admin no puede ver la orden
+desde el celu queda el titulo muy pegado
+cuando cambias de menu, que se cierre el sidebar
+
+en cart tengo que poner el stock correcto en los articulos

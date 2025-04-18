@@ -9,7 +9,7 @@ export const authConfig: NextAuthConfig = {
     signIn: "/auth/login",
     newUser: "/auth/new-account",
   },
-
+  trustHost: true,
   callbacks: {
     jwt({ token, user }) {
       if (user) {

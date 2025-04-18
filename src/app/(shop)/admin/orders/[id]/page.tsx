@@ -11,7 +11,7 @@ type Props = {
 };
 export default async function OrderPerIdPage({ params }: Props) {
   const { id } = await params;
-  const { ok, order,isAdmin,comprador } = await getOrderByID(id);
+  const { ok, order, isAdmin, comprador } = await getOrderByID(id);
 
   if (!ok || !order) {
     redirect("/");
@@ -98,11 +98,7 @@ export default async function OrderPerIdPage({ params }: Props) {
             </div>
 
             <div className="mt-10 mb-2 ">
-              {!order?.isPaid  ? (
-                <PayPalButton orderId={order!.id} amount={order!.total} />
-              ) : (
-                <EstadoOrden isPaid={order?.isPaid} />
-              )}
+              <EstadoOrden isPaid={order?.isPaid} />
             </div>
           </div>
         </div>
